@@ -8,6 +8,8 @@ namespace Receiver
 {
     class Program
     {
+        const string OUTPUT_FILE = @"D:\Programming\master\ADA\ADA-LABS\ADA-LAB2\output.txt";
+
         static void Main(string[] args)
         {
             var factory = new ConnectionFactory() { HostName = Settings.RabbitMQHost };
@@ -21,10 +23,14 @@ namespace Receiver
 
                 consumer.Received += (model, ea) =>
                 {
-                    var body = ea.Body;
-                    var message = Encoding.UTF8.GetString(body.ToArray());
-                    Console.WriteLine("[x] Received {0}", message);
+                    var number = Int64.Parse(Encoding.UTF8.GetString(ea.Body.ToArray()));
+                    Console.WriteLine("[x] Received {0}", number);
+
+                    var fibonacciCalculator = new FibonacciCalculator();
+                    var result = fibonacciCalculator.Calculate(number, ProcessingType.Sleepy);
+                    FileUtility.AppendNumberToFile(OUTPUT_FILE, result);
                 };
+
                 channel.BasicConsume(Settings.QueueName, true, consumer);
 
                 Console.WriteLine(" Press [enter] to exit.");

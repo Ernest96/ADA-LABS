@@ -1,28 +1,34 @@
 #!/usr/bin/env node
 
+var fibonacciCalculator = require('./fibonacciCalculator');
 var amqp = require('amqplib/callback_api');
+var fileStream = require('fs');
+const QUEUE = 'ADA-LAB2';
+const OUTPUT = "D:\\Programming\\master\\ADA\\ADA-LABS\\ADA-LAB2\\output.txt";
 
-amqp.connect('amqp://localhost', function(error0, connection) {
-    if (error0) {
-        throw error0;
+var consumeMessage = async function(msg) {
+    var number = msg.content.toString();
+    console.log("[x] Received " + number);
+    var result = await fibonacciCalculator.sleepyFibonacci(number);
+    fileStream.appendFile(OUTPUT, result + "\n", function (err) {
+        if (err) throw err;
+      });
+}
+
+amqp.connect('amqp://localhost', function(connectError, connection) {
+    if (connectError) {
+        throw connectError;
     }
-    connection.createChannel(function(error1, channel) {
-        if (error1) {
-            throw error1;
+
+    connection.createChannel(function(channelError, channel) {
+        if (channelError) {
+            throw channelError;
         }
 
-        var queue = 'ADA-LAB2';
+        channel.assertQueue(QUEUE, { durable: false });
 
-        channel.assertQueue(queue, {
-            durable: false
-        });
+        console.log("[*] Waiting for messages in %s. To exit press CTRL+C", QUEUE);
 
-        console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
-
-        channel.consume(queue, function(msg) {
-            console.log(" [x] Received %s", msg.content.toString());
-        }, {
-            noAck: true
-        });
+        channel.consume(QUEUE, consumeMessage, { noAck: true });
     });
 });
