@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Threading;
 
-namespace ADA_LAB1
+namespace Common
 {
-    enum ProcessingType
+    public enum ProcessingType
     {
         Sleepy,
         Busy,
         Unknown = 99
     }
 
-    class FibonacciCalculator
+    public class FibonacciCalculator
     {
         public long Calculate(long number, ProcessingType processingType)
         {
@@ -20,6 +20,29 @@ namespace ADA_LAB1
                 return SleepyFibonacci(number);
 
             throw new Exception("Unsuported processing type");
+        }
+
+        public static ProcessingType GetProcessingType()
+        {
+            Console.Write("Choose Processing Type (s - sleepy b - busy): ");
+            string choice = Console.ReadLine();
+            ProcessingType processingType = ProcessingType.Unknown;
+
+            if (choice == "b")
+            {
+                processingType = ProcessingType.Busy;
+            }
+            else if (choice == "s")
+            {
+                processingType = ProcessingType.Sleepy;
+            }
+            else
+            {
+                Console.WriteLine("Unsupported type");
+                Environment.Exit(1);
+            }
+
+            return processingType;
         }
 
         private long SleepyFibonacci(long number)
@@ -79,6 +102,5 @@ namespace ADA_LAB1
 
             return fib;
         }
-
     }
 }

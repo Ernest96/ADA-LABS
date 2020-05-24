@@ -1,9 +1,9 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq;
 
-namespace ADA_LAB1
+namespace Common
 {
-    static class ConcurrentStore
+    public static class ConcurrentStore
     {
         private static readonly ConcurrentBag<long> _numbersBag = new ConcurrentBag<long>();
 

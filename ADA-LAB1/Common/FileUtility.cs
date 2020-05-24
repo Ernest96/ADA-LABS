@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace ADA_LAB1
+namespace Common
 {
     public static class FileUtility
     {
