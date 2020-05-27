@@ -21,20 +21,29 @@ namespace Receiver
 
                 var consumer = new EventingBasicConsumer(channel);
 
-                consumer.Received += (model, ea) =>
-                {
-                    var number = Int64.Parse(Encoding.UTF8.GetString(ea.Body.ToArray()));
-                    Console.WriteLine("[x] Received {0}", number);
-
-                    var fibonacciCalculator = new FibonacciCalculator();
-                    var result = fibonacciCalculator.Calculate(number, ProcessingType.Sleepy);
-                    FileUtility.AppendNumberToFile(OUTPUT_FILE, result);
-                };
+                consumer.Received += (model, ea) => ConsumeMessage(model, ea);
 
                 channel.BasicConsume(Settings.QueueName, true, consumer);
 
                 Console.WriteLine(" Press [enter] to exit.");
                 Console.ReadLine();
+            }
+        }
+
+        static void ConsumeMessage(object model, BasicDeliverEventArgs ea)
+        {
+            try
+            {
+                var number = Int64.Parse(Encoding.UTF8.GetString(ea.Body.ToArray()));
+                Console.WriteLine("[x] Received {0}", number);
+
+                var fibonacciCalculator = new FibonacciCalculator();
+                var result = fibonacciCalculator.Calculate(number, ProcessingType.Sleepy);
+                FileUtility.AppendNumberToFile(OUTPUT_FILE, result);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
     }

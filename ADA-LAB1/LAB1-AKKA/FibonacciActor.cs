@@ -1,6 +1,5 @@
 ﻿using Akka.Actor;
 using Common;
-using System;
 
 namespace LAB1_AKKA
 {
