@@ -22,14 +22,14 @@ namespace LAB1_AKKA
             var numberOfActors = Int32.Parse(Console.ReadLine());
 
             Console.WriteLine($"\nRuning with {numberOfActors} Actors.");
-            ProcessFibonacci(fibonacciNumbers, numberOfActors, processingType);
+            ProcessFibonacciWithActors(fibonacciNumbers, numberOfActors, processingType);
 
             //Task.Run(() =>
             //{
             //    for (int i = 1; i <= 32; i *= 2)
             //    {
             //        Console.WriteLine($"\nRuning with {i} Actors.");
-            //        ProcessFibonacci(fibonacciNumbers, i, processingType);
+            //        ProcessFibonacciWithActors(fibonacciNumbers, i, processingType);
             //        Thread.Sleep(25 * 1000);
             //    }
             //});
@@ -38,7 +38,7 @@ namespace LAB1_AKKA
             Console.ReadLine();
         }
 
-        private static void ProcessFibonacci(long[] fibonacciNumbers, int numberOfActors, ProcessingType processingType)
+        private static void ProcessFibonacciWithActors(long[] fibonacciNumbers, int numberOfActors, ProcessingType processingType)
         {
             var actorSystem = ActorSystem.Create($"Fibonacci-Actors-{numberOfActors}");
             var actors = new List<IActorRef>(numberOfActors);

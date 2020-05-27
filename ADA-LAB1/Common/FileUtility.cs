@@ -12,7 +12,6 @@ namespace Common
             var numbers = fileData.Split('\n').Select(x => Int64.Parse(x)).ToArray();
             Console.WriteLine($"In file are {numbers.Length} numbers.");
 
-
             return numbers;
         }
 
