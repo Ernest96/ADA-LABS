@@ -18,21 +18,21 @@ namespace LAB1_AKKA
 
             var processingType = FibonacciCalculator.GetProcessingType();
 
-            //Console.Write("Enter the number of Actors: ");
-            //var numberOfActors = Int32.Parse(Console.ReadLine());
+            Console.Write("Enter the number of Actors: ");
+            var numberOfActors = Int32.Parse(Console.ReadLine());
 
-            //Console.WriteLine($"\nRuning with {numberOfActors} Actors.");
-            //ProcessFibonacci(fibonacciNumbers, numberOfActors, processingType);
+            Console.WriteLine($"\nRuning with {numberOfActors} Actors.");
+            ProcessFibonacci(fibonacciNumbers, numberOfActors, processingType);
 
-            Task.Run(() =>
-            {
-                for (int i = 1; i <= 32; i *= 2)
-                {
-                    Console.WriteLine($"\nRuning with {i} Actors.");
-                    ProcessFibonacci(fibonacciNumbers, i, processingType);
-                    Thread.Sleep(25 * 1000);
-                }
-            });
+            //Task.Run(() =>
+            //{
+            //    for (int i = 1; i <= 32; i *= 2)
+            //    {
+            //        Console.WriteLine($"\nRuning with {i} Actors.");
+            //        ProcessFibonacci(fibonacciNumbers, i, processingType);
+            //        Thread.Sleep(25 * 1000);
+            //    }
+            //});
 
 
             Console.ReadLine();
