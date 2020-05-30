@@ -26,3 +26,30 @@ Concluzia aici intre sleepy si busy este aceeasi ca si in cazul cu TPL.
 ## TPL vs AKKA
 
 Daca sa facem o paralela intre aceste doua abordari: Timpul de executie in cazul cu TPL este un pic mai mic. Asta se datoreaza faptului ca nu este nevoie sa sincronizam actorii si sa transmitem mesaje la actori, insa totodata AKKA.NET permite o decuplare mai eficienta. Pe linga aceasta AKKA.NET permite incapsularea acestui proces de concurenta. Noi nu avem de afacere cu fire de executie, fiecare actor ruleaza pe firul sau de executie si este adormit atit timp cind nu primeste mesaje. Cu ajutorul AKKA.NET se poate foarte eficient de asigurat comunicare intre aplicatii aflate la distanta si prelucrarea mesajelor.
+
+
+# LAB2
+
+In aceasta lucrare s-a folosit RabbitMQ. O coada de mesaje ce poate fi folosita de mai multe procese/aplicatii. Cu ajutorul RabbitMQ putem asigura comunicarea intre mai multe procese independent de limbajul de programare in care aceste aplicatii (procese) au fost scrise. In acest laborator au fost folosite limbajele C# si JavaScript (Node JS).
+
+![lab2](https://scontent.fkiv5-1.fna.fbcdn.net/v/t1.15752-9/100597991_1113288285701188_8732611133535420416_n.png?_nc_cat=101&_nc_sid=b96e70&_nc_eui2=AeF_PJcXg5LkUuIjD85r9bdc1JAiucGXKS_UkCK5wZcpLxcAWrhboC2RPf0tAjSf3xWq63kbI8PdatmkKw_aqlxu&_nc_ohc=Ox8P5y2Ami8AX_z_zKs&_nc_ht=scontent.fkiv5-1.fna&oh=d0c29952d79ea89cc5f74c528099a9c6&oe=5EF6017A)
+
+Aici este reflectat cum un Publisher transmite mesaje, iar 4 Receiveri primesc aceste mesaje. (2 NodeJS si 2 C#)
+Se observa un grad de distributie a mesajelor echilibrat. Fiecare aplicatie primeste un numar aproximativ de mesaje.
+Astfel RabbitMQ este un tool foarte eficient in cazuri cind avem aplicatii care efectueaza acelasi lucru dar sunt scrise in limbaje diferite. Cu ajutorul lui putem distribuie niste work joburi intre aceste aplicatii.
+
+## RabbitMQ vs AKKA.NET (Open MPI)
+
+Plusurile la implemntarea prin RabbitMQ:
+	+ Sunt cozi durabile, mesajele sunt persistate in caz de nevoie. 
+	+ Putem efectua un mecanism de acknowledgment / Garantarea livrarii mesajului.
+	+ Decuplarea limbajelor de programare.
+	+ Mesajele se distribuie automat.
+	
+Plusurile la implemntarea prin AKKA.NET:
+	+ Intr-un proces sunt mai multi actori (threaduri). Pe cind in cazul cu RabbitMQ un proces proceseaza un mesaj la un moment dat de timp.
+	+ Actorii sunt foarte ieftin de creat.
+	+ Totusi a fost mai usor de sincronizat actorii decit aplicatiile in cazul cu RabbitMQ
+	+ Se scaleaza mai usor.
+
+
